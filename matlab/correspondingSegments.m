@@ -114,4 +114,20 @@ for i = 1:size(correspondingCandidatesPos(:, 1))
     
 end
 
+%crescer a regiao da primeira imagem
+
+[P, J, M] = regionGrowing(img1, initPos1);
+
+figure;
+imshow(J, 'InitialMagnification', 'fit');  
+
+%identificar qual das regioes candidatas corresponde a primeira imagem.
+%Parte trash!!!!!
+
+
+
+
+
+
+
 

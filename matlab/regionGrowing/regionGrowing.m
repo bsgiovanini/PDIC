@@ -1,4 +1,4 @@
-function [P, J] = regionGrowing(cIM, initPos, thresVal, maxDist, tfMean, tfFillHoles, tfSimplify)
+function [P, J, M] = regionGrowing(cIM, initPos, thresVal, maxDist, tfMean, tfFillHoles, tfSimplify)
 % REGIONGROWING Region growing algorithm for 2D/3D grayscale images
 %
 % Syntax:
@@ -132,6 +132,8 @@ disp(['RegionGrowing Opening: Initial position (' num2str(initPos(1))...
 % preallocate array
 J = false(nRow, nCol, nSli);
 
+M = [];
+
 % add the initial pixel to the queue
 queue = [initPos(1), initPos(2), initPos(3)];
 
@@ -164,6 +166,8 @@ while size(queue, 1)
 
            % current pixel is true, if all properties are fullfilled
            J(xv+i, yv+j, zv+k) = true; 
+           
+           M(end+1,:) = [xv+i, yv+j, zv+k];
 
            % add the current pixel to the computation queue (recursive)
            queue(end+1,:) = [xv+i, yv+j, zv+k];
