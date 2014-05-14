@@ -80,7 +80,7 @@ end
 
 if ~exist('correspondingCandidatesPos', 'var') || isempty(correspondingCandidatesPos)
     error('Eh necessario existir ao menos um candidato')
-    
+    z
 end    
 
 
