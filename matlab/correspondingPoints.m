@@ -11,7 +11,15 @@ function [ P ] = correspondingPoints( img1, img2 )
     initPos1(1) = round(axes2pix(size(img1, 2), get(himage, 'XData'), p(2)));
     initPos1(2) = round(axes2pix(size(img1, 1), get(himage, 'YData'), p(1)));
     
-    P = carregaPontosHomologosByPearson(initPos1, 5, img1, img2);
+    cands = {};
+    
+    cands = carregaPontosHomologosByPearson(initPos1, 2, img1, img2);
+    
+    P = recuperaNMaiores(cands, 3);
+    
+    P{1}
+    P{2}
+    P{3}
     
 
 end

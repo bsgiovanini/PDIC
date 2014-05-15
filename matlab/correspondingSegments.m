@@ -1,4 +1,4 @@
-function [P, J] = correspondingSegments(img1, img2, initPos1, correspondingCandidatesPos, thresVal, maxDist, tfMean, tfFillHoles, tfSimplify)
+function [cands, clicado] = correspondingSegments(img1, img2, initPos1, correspondingCandidatesPos, thresVal)
 % REGIONGROWING Region growing algorithm for 2D/3D grayscale images
 %
 % Syntax:
@@ -80,14 +80,16 @@ end
 
 if ~exist('correspondingCandidatesPos', 'var') || isempty(correspondingCandidatesPos)
     error('Eh necessario existir ao menos um candidato')
-    z
+    
 end    
 
 
 regioesCandidatas = [];
 
+osize = size(correspondingCandidatesPos(:, 1))
+
 %loop para testar os pontos homologos candidatos
-for i = 1:size(correspondingCandidatesPos(:, 1))
+for i = 1:osize(1)
 
   candidatePoint = correspondingCandidatesPos(i, :);
   
@@ -101,14 +103,19 @@ for i = 1:size(correspondingCandidatesPos(:, 1))
   end
   
   if deveCrescer
+     
+      
+      ocandidato = candidatePoint
+      othreshVal = thresVal
       % crescer a regiao candidata (regionGrowing)
-      [P, J, M] = regionGrowing(img2, candidatePoint);
+      [p1, j1, m1] = regionGrowing(img2, candidatePoint, thresVal);
 
       figure;
-      imshow(J, 'InitialMagnification', 'fit');  
+      imshow(j1, 'InitialMagnification', 'fit');
+           
 
       % guardar a regiao candidata
-      regioesCandidatas{end+1} = M(:,1:2); 
+      regioesCandidatas{end+1} = m1; 
   
   end
     
@@ -116,14 +123,20 @@ end
 
 %crescer a regiao da primeira imagem
 
-[P, J, M] = regionGrowing(img1, initPos1);
+[p2, j2, m2] = regionGrowing(img1, initPos1, thresVal);
 
 figure;
-imshow(J, 'InitialMagnification', 'fit');  
+imshow(j2, 'InitialMagnification', 'fit'); 
+
+cands = regioesCandidatas;
+
+clicado = m2;
+
+
 
 %identificar qual das regioes candidatas corresponde a primeira imagem.
 %Parte trash!!!!!
-
+end
 
 
 
