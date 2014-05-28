@@ -1,26 +1,27 @@
-function [ P ] = correspondingPoints( img1, img2 )
+function [ P ] = correspondingPoints(initPos1, img1, img2 )
 %CORRESPONDINGPOINTS Summary of this function goes here
 %   Detailed explanation goes here
 
-    himage = imshow(img1, []);    
     
-    % graphical user input for the initial position
-    p = ginput(1);
     
-    % get the pixel position concerning to the current axes coordinates
-    initPos1(1) = round(axes2pix(size(img1, 2), get(himage, 'XData'), p(2)));
-    initPos1(2) = round(axes2pix(size(img1, 1), get(himage, 'YData'), p(1)));
+    cands = carregaPontosHomologosByPearson(initPos1, 15, img1, img2);
     
-    cands = {};
+    n = 5;
     
-    cands = carregaPontosHomologosByPearson(initPos1, 2, img1, img2);
+    largPxl = 5;
+    rgbPxl = [255 255 0];
     
-    P = recuperaNMaiores(cands, 3);
+    P = recuperaNMaiores(cands, n);
     
-    P{1}
-    P{2}
-    P{3}
+    for i= 1:n
+        img2(P(i,1)-largPxl:P(i,1)+largPxl, P(i,2)-largPxl:P(i,2)+largPxl,1) = rgbPxl(1);
+        img2(P(i,1)-largPxl:P(i,1)+largPxl, P(i,2)-largPxl:P(i,2)+largPxl,2) = rgbPxl(2);
+        img2(P(i,1)-largPxl:P(i,1)+largPxl, P(i,2)-largPxl:P(i,2)+largPxl,3) = rgbPxl(3);
+    end
     
+    figure;
+    
+    imshow(img2, 'InitialMagnification', 'fit');     
 
 end
 

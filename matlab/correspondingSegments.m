@@ -97,6 +97,8 @@ for i = 1:osize(1)
   deveCrescer = true;
   for j = 1:size(regioesCandidatas)
       
+      regioesCandidatas{j};
+      
       if ismember(candidatePoint, regioesCandidatas{j}, 'rows')
           deveCrescer = false;
       end    
@@ -105,8 +107,6 @@ for i = 1:osize(1)
   if deveCrescer
      
       
-      ocandidato = candidatePoint
-      othreshVal = thresVal
       % crescer a regiao candidata (regionGrowing)
       [p1, j1, m1] = regionGrowing(img2, candidatePoint, thresVal);
 

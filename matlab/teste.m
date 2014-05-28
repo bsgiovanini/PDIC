@@ -1,20 +1,38 @@
-imgA = imread('/Users/bsgiovanini/PDIC/imagens/maraca_1.tif','tif');
-imgB = imread('/Users/bsgiovanini/PDIC/imagens/maraca_1.tif','tif');
-
-imgA(:,:,4) = [];
-imgB(:,:,4) = [];
-
-%regionGrowing(imgA)
-
-level1 = graythresh(imgA)
+imgA = imread('/Users/bsgiovanini/PDIC/imagens/cagarras_01.png','png');
+imgB = imread('/Users/bsgiovanini/PDIC/imagens/cagarras_02.png','png');
 
 
-[cands, clicado] = correspondingSegments(imgA, imgB, [], [491 329; 55 895], 35);
+img1 = imread('/Users/bsgiovanini/PDIC/imagens/1997_017_300dpi.bmp','bmp');
+
+initPos1 = clicaPonto(imgA)
+
+ptCands = correspondingPoints(initPos1, imgA, imgB);
+
+grayImg = rgb2gray(imgB);
+
+level = graythresh(grayImg)*100;
+
+[cands, clicado] = correspondingSegments(imgA, imgB, initPos1, ptCands(:,1:2), 33);
+
+
+
+%imgA(:,:,4) = [];
+%imgB(:,:,4) = [];
+
+%%regionGrowing(imgA)
+
+%level1 = graythresh(imgA)
+
+
+%%[cands, clicado] = correspondingSegments(imgA, imgB, [778 708], [596 938; 554 167], 25);
+
+%%[cands, clicado] = correspondingSegments(imgA, imgB, [190 585], [628 343; 166 463], 33);
+
 
 theSize = size(cands);
 
 for i=1:theSize(2)
-    writeFile(strcat('cand',num2str(i)), cands{i});
+   writeFile(strcat('cand',num2str(i)), cands{i});
 end
 
 writeFile('clicado', clicado);
